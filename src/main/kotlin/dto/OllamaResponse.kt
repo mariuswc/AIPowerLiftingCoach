@@ -1,6 +1,9 @@
 package dto
 
-data class OllamaChatResponse(
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
+
+data class OllamaResponse(
     val response: String?,
 )
 
