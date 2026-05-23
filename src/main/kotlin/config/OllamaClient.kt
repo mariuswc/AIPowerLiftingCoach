@@ -13,7 +13,7 @@ class OllamaClient(
 
 
     @Bean
-    fun webClient(builder: WebClient.Builder): WebClient =
+    fun stream(builder: WebClient.Builder): WebClient =
         builder
             .baseUrl(baseURL)
             .build()
