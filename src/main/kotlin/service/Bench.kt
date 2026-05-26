@@ -1,4 +1,8 @@
 package no.marius.coach.service
 
-class Bench {
-}
+import org.apache.catalina.User
+
+data class Bench(
+    val id: String,
+    val user: User
+)

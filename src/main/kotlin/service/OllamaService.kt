@@ -12,13 +12,10 @@ import org.springframework.web.reactive.function.client.WebClient
 class OllamaService(
     private val webClient: WebClient,
 ) {
-    private val mapper = jacksonObjectMapper()
-
 
     fun stream(request: OllamaRequest)= webClient.post()
         .bodyValue(request)
         .retrieve()
         .bodyToMono(OllamaResponse::class.java)
-        .doOnSuccess { println() }
 
 }

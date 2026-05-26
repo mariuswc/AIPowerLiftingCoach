@@ -8,13 +8,13 @@ import org.springframework.web.reactive.function.client.WebClient
 @Configuration
 class OllamaClient(
     @Value("\${spring.ai.ollama.base-url}")
-    private val baseURL:String,
+    private val baseUrl:String,
 ) {
 
 
     @Bean
-    fun webClient(builder: WebClient.Builder): WebClient =
+    fun stream(builder: WebClient.Builder): WebClient =
         builder
-            .baseUrl(baseURL)
+            .baseUrl(baseUrl)
             .build()
 }
