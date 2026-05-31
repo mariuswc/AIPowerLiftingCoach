@@ -14,7 +14,7 @@ class CoachController(
     private val ollamaService: OllamaService,
 ) {
     @PostMapping("/coach")
-    suspend fun coaching(@RequestBody request: OllamaRequest): Mono<OllamaResponse?> {
+    suspend fun coaching(@RequestBody request: OllamaRequest): Mono<OllamaResponse> {
         return ollamaService.stream(request)
         //response from the ollama with prompt generated from DJL.
     }
