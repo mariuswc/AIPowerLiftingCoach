@@ -34,7 +34,7 @@ logging:
     org.springframework.ai: DEBUG
 
 image:
-  path: src/main/resources/images
+  path: src/main/resources/images/image
 
 ---
 
