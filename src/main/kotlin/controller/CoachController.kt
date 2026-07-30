@@ -1,5 +1,7 @@
 package no.marius.coach.controller
 
+import ai.djl.inference.Predictor
+import ai.djl.modality.cv.Image
 import ai.djl.modality.cv.output.Joints
 import dto.OllamaRequest
 import dto.OllamaResponse
@@ -17,8 +19,10 @@ class CoachController(
     private val djlService: DjlService
 ) {
     @PostMapping("/coach")
-    fun coaching(@RequestBody image: MultipartFile): Array<Joints> {
+    fun coaching(@RequestBody image: MultipartFile): Array<Joints>? {
         return djlService.analyzeJoints(image)
-        //response from the ollama with prompt generated from DJL.
     }
 }
+
+
+
