@@ -1,9 +1,13 @@
 package no.marius.coach.dto.response
 
-import ai.djl.modality.cv.output.Joints
-
 data class DJLResponse(
-    val joints: Array<Joints>?,
+    val joints: List<XandYPosition>,
     val message: String? = null
 )
+
+data class XandYPosition(
+    val positionX: Float,
+    val positionY: Float
+)
+
 

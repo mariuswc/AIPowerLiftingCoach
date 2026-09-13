@@ -1,8 +1,11 @@
 package no.marius.coach.dto.request
 
-data class OllamaRequest(
-    val model: String = "llama3.1:8b",
-    val prompt: String,
-    val stream: Boolean = false
+import no.marius.coach.dto.response.XandYPosition
 
+data class OllamaRequest(
+    val system: String = "Analyze these joints",
+    val prompt: String,
+    val model: String = "llama3.1:8b",
+    val stream: Boolean = false
 )
+
