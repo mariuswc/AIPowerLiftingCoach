@@ -4,8 +4,7 @@ Upload a photo of yourself lifting and get feedback on your form.
 
 ## How it works
 
-1. You send a photo (JPEG or PNG) to the API.
-2. The app checks that the file really is an image, using Apache Tika.
+1. You send a Video/Photo to the API.
 3. A pose model (YOLO11 pose, run with Deep Java Library and PyTorch) finds your joints and their x/y positions.
 4. The joint positions are sent to a local LLM (Llama 3.1 through Ollama), which answers with feedback on your form.
 
@@ -15,6 +14,7 @@ Upload a photo of yourself lifting and get feedback on your form.
 - Deep Java Library (DJL) with PyTorch
 - Ollama (Llama 3.1 8B)
 - Apache Tika
+- FFmpeg for splitting video into images
 
 
 ## Requirements
@@ -22,6 +22,7 @@ Upload a photo of yourself lifting and get feedback on your form.
 - **Java 17 or newer**
 - **Ollama** installed and running: https://ollama.com
 - Internet access on first start (the pose model and PyTorch libraries are downloaded automatically)
+- FFmpeg
 
 
 ## Run it
@@ -34,7 +35,20 @@ ollama pull llama3.1:8b
 
 Make sure Ollama is running. It listens on `http://localhost:11434` by default.
 
-**2. Start the app**
+**2. Install FFmpeg**
+
+Windows: 
+```powershell
+winget install -e --id Gyan.FFmpeg
+```
+MacOS/Linux:
+
+```bash
+sudo apt update && sudo apt install ffmpeg -y
+
+```
+
+**3. Start the app**
 
 macOS / Linux:
 ```bash
