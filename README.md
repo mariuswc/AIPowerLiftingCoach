@@ -1,6 +1,6 @@
 # AI Powerlifting Coach
 
-Upload a photo of yourself lifting and get feedback on your form.
+Upload a photo or video of yourself lifting and get feedback on your form.
 
 ## How it works
 
