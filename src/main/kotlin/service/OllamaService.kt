@@ -3,9 +3,9 @@ package no.marius.coach.service
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import no.marius.coach.dto.request.OllamaRequest
-import no.marius.coach.dto.response.OllamaResponse
-import no.marius.coach.dto.response.XandYPosition
+import no.marius.coach.model.dto.request.OllamaRequest
+import no.marius.coach.model.dto.response.OllamaResponse
+import no.marius.coach.model.dto.response.XandYPosition
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.bodyToMono
@@ -20,7 +20,7 @@ class OllamaService(
 
     val mapper: ObjectMapper = jacksonObjectMapper()
 
-    fun stream(detections: List<XandYPosition>?): Mono<OllamaResponse> {
+    fun stream(detections: List<List<XandYPosition>?>): Mono<OllamaResponse> {
 
         val prompt = mapper.writeValueAsString(detections)
 

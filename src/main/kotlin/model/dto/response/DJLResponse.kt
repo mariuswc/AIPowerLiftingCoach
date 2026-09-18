@@ -1,4 +1,4 @@
-package no.marius.coach.dto.response
+package no.marius.coach.model.dto.response
 
 data class DJLResponse(
     val joints: List<XandYPosition>,
