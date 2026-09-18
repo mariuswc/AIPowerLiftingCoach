@@ -1,20 +1,25 @@
 package no.marius.coach.controller
 
+import no.marius.coach.model.dto.response.OllamaResponse
 import no.marius.coach.service.DjlService
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import reactor.core.publisher.Mono
 
 
 @RestController
 class CoachController(
     private val djlService: DjlService
 ) {
-    @PostMapping("/coach")
-    fun coaching(@RequestBody image: MultipartFile) = djlService.analyzeJoints(image)
 
+    @PostMapping("/coach")
+    fun coaching(@RequestParam("file") file: MultipartFile?): Mono<OllamaResponse> {
+        return djlService.analyzeJointsFromPictures(file?.bytes)
+    }
 }
+
 
 
 

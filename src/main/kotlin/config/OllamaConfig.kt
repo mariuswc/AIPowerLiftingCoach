@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.reactive.function.client.WebClient
 
 @Configuration
-class OllamaClient(
+class OllamaConfig(
     @Value("\${spring.ai.ollama.base-url}")
     private val baseUrl:String,
 ) {

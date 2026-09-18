@@ -30,8 +30,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.ai:spring-ai-starter-model-ollama")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("com.github.kokorin.jaffree:jaffree:2023.09.10")
     implementation("org.flywaydb:flyway-core")
+    implementation ("com.squareup.okhttp3:okhttp:5.3.2")
     implementation("org.flywaydb:flyway-database-postgresql")
+    implementation("org.apache.tika:tika-core:3.1.0")
+    implementation("org.apache.tika:tika-parsers-standard-package:3.1.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.10.2")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -60,6 +64,6 @@ dependencyManagement {
     }
 }
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    freeCompilerArgs = listOf("-Xannotation-default-target=param-property")
+compileKotlin.compilerOptions {
+    freeCompilerArgs.set(listOf("-Xannotation-default-target=param-property"))
 }

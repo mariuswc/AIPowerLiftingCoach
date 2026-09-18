@@ -23,8 +23,6 @@ coach:
     storage-path: ./uploads
     fps: 5
     max-duration-seconds: 60
-  ffmpeg:
-    path: /usr/local/bin/ffmpeg
   pose:
     confidence-threshold: 0.5
 
