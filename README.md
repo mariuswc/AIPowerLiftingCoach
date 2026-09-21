@@ -7,6 +7,7 @@ Upload a photo or video of yourself lifting and get feedback on your form.
 1. You send a Video/Photo to the API.
 3. A pose model (YOLO11 pose, run with Deep Java Library and PyTorch) finds your joints and their x/y positions.
 4. The joint positions are sent to a local LLM (Llama 3.1 through Ollama), which answers with feedback on your form.
+<img width="1536" height="1029" alt="image" src="https://github.com/user-attachments/assets/160aad1c-ba6c-441a-bf65-ef017b100b89" />
 
 ## Tech stack
 
