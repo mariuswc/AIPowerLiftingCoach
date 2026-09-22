@@ -20,7 +20,7 @@ class OllamaService(
 
     val mapper: ObjectMapper = jacksonObjectMapper()
 
-    fun stream(detections: List<List<XandYPosition>?>): Mono<OllamaResponse> {
+    fun stream(detections: List<List<XandYPosition>?>?): Mono<OllamaResponse> {
 
         val prompt = mapper.writeValueAsString(detections)
 

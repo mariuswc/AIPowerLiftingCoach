@@ -30,20 +30,19 @@ class DjlService(
         logger.info("Model {} has been loaded", zooModel.modelPath)
     }
 
-    fun analyzeJointsFromPictures(image: ByteArray?): Mono<OllamaResponse> {
-
+    fun analyzeJoints(image: ByteArray?): Mono<OllamaResponse> {
         //we validate the input from the API
         val validatedInput = validateUploadedFile(image)
 
         //We cast the sealed classes as the specific types for "video" and "pictures"
         return when (validatedInput) {
             is PictureExtension -> analyzeImage(validatedInput.bytes)
-            is VideoExtension -> videoService.analyzeVideoFrames(validatedInput.videoFrames)
+            is VideoExtension -> videoService.analyzeVideoFrames(validatedInput.videoBytes)
         }
     }
 
     private fun analyzeImage(bytes: ByteArray?): Mono<OllamaResponse> {
-        val predictionImage: Image? = ImageFactory.getInstance()?.fromInputStream(ByteArrayInputStream(bytes))
+        val predictionImage: Image = ImageFactory.getInstance().fromInputStream(ByteArrayInputStream(bytes))
         val prediction = zooModel.newPredictor().predict(predictionImage)
 
         if (prediction.isNullOrEmpty()) DJLResponse(emptyList(), "The image does not contain any joints")
@@ -61,7 +60,6 @@ class DjlService(
     */
     private fun validateUploadedFile(bytes: ByteArray?): FileExtensions {
         val tika = Tika()
-        val videoFrames = videoService.extractVideoFrames(bytes)
         val mimeType = tika.detect(bytes)
 
         // Scanning through the enum for the allowed entry
@@ -69,8 +67,9 @@ class DjlService(
             it.mimeType == mimeType
         } ?: throw InvalidFileExtension(mimeType)
 
+
         return when (allowedFileExtension.isVideo) {
-            true -> VideoExtension(videoFrames)
+            true -> VideoExtension(bytes)
             false -> PictureExtension(bytes)
 
         }
@@ -79,7 +78,8 @@ class DjlService(
     enum class AllowedFileType(val mimeType: String, val isVideo: Boolean) {
         JPEG("image/jpeg", false),
         PNG("image/png", false),
-        MP4("video/mp4", true);
+        MP4("video/mp4", true),
+        QUICKTIME("video/quicktime",true);
     }
 
 
