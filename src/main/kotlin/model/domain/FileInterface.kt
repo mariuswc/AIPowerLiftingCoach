@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage
 sealed interface FileInterface
 
 sealed class FileExtensions: FileInterface{
-    class VideoExtension(val videoFrames: List<BufferedImage>): FileExtensions()
+    class VideoExtension(val videoBytes: ByteArray?): FileExtensions()
     class PictureExtension(val bytes: ByteArray?): FileExtensions()
 
 }

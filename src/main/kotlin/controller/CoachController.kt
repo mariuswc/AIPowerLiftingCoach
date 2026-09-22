@@ -16,7 +16,10 @@ class CoachController(
 
     @PostMapping("/coach")
     fun coaching(@RequestParam("file") file: MultipartFile?): Mono<OllamaResponse> {
-        return djlService.analyzeJointsFromPictures(file?.bytes)
+        if(file == null){
+            throw NullPointerException("The image cannot be null")
+        }
+        return djlService.analyzeJoints(file?.bytes)
     }
 }
 

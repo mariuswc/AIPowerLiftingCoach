@@ -14,7 +14,7 @@ import java.io.File
 class DjlConfig {
 
     @Bean
-    fun djlSetup(): ZooModel<Image, Array<Joints>?>? {
+    fun djlSetup(): ZooModel<Image, Array<Joints>> {
         val criteria = Criteria.builder()
             .setTypes(Image::class.java, Array<Joints>::class.java)
             .optModelUrls("djl://ai.djl.pytorch/yolo11n-pose")
