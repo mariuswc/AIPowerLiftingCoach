@@ -9,11 +9,13 @@ import no.marius.coach.model.dto.response.OllamaResponse
 import no.marius.coach.exceptions.InvalidFileExtension
 import no.marius.coach.model.domain.FileExtensions
 import no.marius.coach.model.domain.FileExtensions.*
+import no.marius.coach.model.dto.request.PowerLiftingRequest
 import no.marius.coach.util.toXandYPosition
 import org.apache.tika.Tika
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import reactor.core.publisher.Mono
 import java.io.ByteArrayInputStream
 
@@ -30,9 +32,10 @@ class DjlService(
         logger.info("Model {} has been loaded", zooModel.modelPath)
     }
 
-    fun analyzeJoints(image: ByteArray?): Mono<OllamaResponse> {
+    fun analyzeJoints(request: PowerLiftingRequest): Mono<OllamaResponse> {
         //we validate the input from the API
-        val validatedInput = validateUploadedFile(image)
+        val validatedInput = validateUploadedFile(request.file.bytes)
+
 
         //We cast the sealed classes as the specific types for "video" and "pictures"
         return when (validatedInput) {
@@ -42,6 +45,8 @@ class DjlService(
     }
 
     private fun analyzeImage(bytes: ByteArray?): Mono<OllamaResponse> {
+
+
         val predictionImage: Image = ImageFactory.getInstance().fromInputStream(ByteArrayInputStream(bytes))
         val prediction = zooModel.newPredictor().predict(predictionImage)
 
@@ -82,5 +87,8 @@ class DjlService(
         QUICKTIME("video/quicktime",true);
     }
 
-
 }
+
+
+
+
