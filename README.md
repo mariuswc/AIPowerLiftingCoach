@@ -1,12 +1,12 @@
 # AI Powerlifting Coach API
 
-An API that takes a photo or video of a lift and returns AI feedback on the form.
+An API that takes a video of a lift and returns AI feedback on the form.
 
 This is API-only by design, no frontend. Talk to it with curl, Bruno, Postman, or whatever client you like.
 
 ## How it works
 
-1. You send a photo or video of a lift to the API.
+1. You video of a lift to the API.
 2. A pose model (YOLO11 pose, run with Deep Java Library and PyTorch) finds the lifter's joints and their x/y positions. For video, FFmpeg splits it into frames first.
 3. The joint positions are sent to a local LLM (Llama 3.1 through Ollama), which answers with feedback on the form.
 <img width="1535" height="1025" alt="image" src="https://github.com/user-attachments/assets/7dfd43c2-9aea-44f9-bd3a-09dad6460c75" />
