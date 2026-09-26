@@ -1,16 +1,17 @@
-# AI Powerlifting Coach
+# AI Powerlifting Coach API
 
-Upload a photo or video of yourself lifting and get feedback on your form.
+An API that takes a photo or video of a lift and returns AI feedback on the form.
+
+This is API-only by design, no frontend. Talk to it with curl, Bruno, Postman, or whatever client you like.
 
 ## How it works
 
-1. You send a Video/Photo to the API.
-3. A pose model (YOLO11 pose, run with Deep Java Library and PyTorch) finds your joints and their x/y positions.
-4. The joint positions are sent to a local LLM (Llama 3.1 through Ollama), which answers with feedback on your form.
+1. You send a photo or video of a lift to the API.
+2. A pose model (YOLO11 pose, run with Deep Java Library and PyTorch) finds the lifter's joints and their x/y positions. For video, FFmpeg splits it into frames first.
+3. The joint positions are sent to a local LLM (Llama 3.1 through Ollama), which answers with feedback on the form.
 <img width="1535" height="1025" alt="image" src="https://github.com/user-attachments/assets/7dfd43c2-9aea-44f9-bd3a-09dad6460c75" />
 
 (this image was generated using AI) - Check out [Architecture Image](docs/architecture.md) for more details.
-
 
 ## Tech stack
 
@@ -18,8 +19,7 @@ Upload a photo or video of yourself lifting and get feedback on your form.
 - Deep Java Library (DJL) with PyTorch
 - Ollama (Llama 3.1 8B)
 - Apache Tika
-- FFmpeg for splitting video into images
-
+- FFmpeg for splitting video into frames
 
 ## Requirements
 
@@ -27,7 +27,6 @@ Upload a photo or video of yourself lifting and get feedback on your form.
 - **Ollama** installed and running: https://ollama.com
 - Internet access on first start (the pose model and PyTorch libraries are downloaded automatically)
 - FFmpeg
-
 
 ## Run it
 
@@ -41,15 +40,14 @@ Make sure Ollama is running. It listens on `http://localhost:11434` by default.
 
 **2. Install FFmpeg**
 
-Windows: 
+Windows:
 ```powershell
 winget install -e --id Gyan.FFmpeg
 ```
-MacOS/Linux:
+macOS/Linux:
 
 ```bash
 sudo apt update && sudo apt install ffmpeg -y
-
 ```
 
 **3. Start the app**
@@ -66,8 +64,7 @@ Windows:
 
 The app starts on `http://localhost:8080`. The first start takes a while because the pose model is downloaded.
 
-By default the app uses the `local` profile
-
+By default the app uses the `local` profile, which needs no database.
 
 ```bash
 SPRING_PROFILES_ACTIVE=docker ./gradlew bootRun
@@ -80,14 +77,23 @@ $env:SPRING_PROFILES_ACTIVE="docker"; .\gradlew.bat bootRun
 
 ## Use it
 
-Send a `POST` request to `/coach` as `multipart/form-data`, with the image in a field named `file`.
+Send a `POST` request to `/coach` as `multipart/form-data` with two fields:
+
+| Field | Value |
+|---|---|
+| `file` | An MP4 or QuickTime/MOV video |
+| `exercise` | Free text, e.g. `squat` (not yet used to tailor the feedback) |
 
 With curl:
 ```bash
-curl -X POST http://localhost:8080/coach -F "file=@squat.jpg"
+curl -X POST http://localhost:8080/coach -F "file=@squat.mp4" -F "exercise=squat"
 ```
 
-With Bruno or Postman: choose **Multipart Form**, add the key `file`, and pick your image as the value.
+With Bruno or Postman: choose **Multipart Form**, add the key `file` with your video as the value, and the key `exercise` with any text.
+
+### Swagger docs
+
+Interactive API docs are served at `http://localhost:8080/swagger-ui.html` once the app is running.
 
 **Successful response (200):**
 ```json
@@ -100,7 +106,7 @@ With Bruno or Postman: choose **Multipart Form**, add the key `file`, and pick y
 ```json
 {
   "errorCode": "INVALID_FILE_EXTENSION",
-  "message": "The uploaded file contains an invalid extension: application/pdf"
+  "message": "Invalid file extension: application/pdf, the allowed extensions are: [video/mp4, video/quicktime]"
 }
 ```
 
@@ -117,11 +123,12 @@ Settings are in `src/main/resources/application.yaml`:
 ## Troubleshooting
 
 - **Connection refused when calling `/coach`**: Ollama is not running. Start it and try again.
-- **415 Unsupported Media Type**: only JPEG and PNG are accepted.
-- **400 Bad Request**: the form field must be named `file`.
+- **415 Unsupported Media Type**: only MP4 and QuickTime/MOV videos are accepted.
+- **400 Bad Request**: both `file` and `exercise` form fields are required.
 - **Slow first start**: normal, the pose model is being downloaded.
 
+# For educational purposes only
 
+This project is built by Marius Cook as a learning project.
 
-# For education purposes only
-This project is fully developed by Marius Cook - this is a project for educational purposes only. This project fully written by me and not AI.
+It was written with AI assistance. The idea, the architecture and the decisions behind it are mine, as is much of the code. AI was used as a tool along the way: looking things up in poorly documented libraries, working through bugs, and writing parts I chose to hand off.
