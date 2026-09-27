@@ -1,5 +1,10 @@
 # AI Powerlifting Coach API
 
+
+#WARNING: 
+
+**This app is deprecated due to technical limitations of the pytorch model, it is not possible for the LLM to get enough accurate data to know if the lift was good**
+
 An API that takes a video of a lift and returns AI feedback on the form.
 
 This is API-only by design, no frontend. Talk to it with curl, Bruno, Postman, or whatever client you like.
